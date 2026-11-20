@@ -1,6 +1,6 @@
 <div class="publications">
   {% if include.homepage %}
-    {% bibliography --query @*[hide_on_homepage!=true] %}
+    {% bibliography --query @*[selected=true] %}
   {% else %}
     {% bibliography %}
   {% endif %}
