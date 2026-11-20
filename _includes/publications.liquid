@@ -1,0 +1,7 @@
+<div class="publications">
+  {% if include.homepage %}
+    {% bibliography --query @*[hide_on_homepage!=true] %}
+  {% else %}
+    {% bibliography %}
+  {% endif %}
+</div>

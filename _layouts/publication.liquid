@@ -1,0 +1,62 @@
+---
+layout: default
+---
+{% assign paper = page.publication %}
+<article class="post">
+  <p><a href="{{ '/publications/' | relative_url }}">← Publications</a></p>
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title | escape }}</h1>
+    <p class="mb-1">{{ page.publication_authors | join: ', ' | escape }}</p>
+    <p class="text-muted">
+      <em>{{ paper.journal | escape }}</em>, {{ paper.year }}
+      {%- if paper.volume %}, {{ paper.volume }}{% endif -%}
+      {%- if paper.number %} ({{ paper.number }}){% endif -%}
+      {%- if paper.pages %}, {{ paper.pages | escape }}{% endif %}
+    </p>
+    <div class="d-flex flex-wrap align-items-center mb-2">
+      {% if page.publication_pdf_url %}
+        <a class="btn btn-primary btn-sm ml-0" href="{{ page.publication_pdf_url | relative_url }}" download>Download PDF</a>
+      {% elsif paper.pdf contains '://' %}
+        <a class="btn btn-primary btn-sm ml-0" href="{{ paper.pdf | escape }}">View PDF</a>
+      {% elsif paper.full_text %}
+        <a class="btn btn-primary btn-sm ml-0" href="{{ paper.full_text | escape }}">Full text</a>
+      {% endif %}
+      {% if paper.doi %}
+        <a class="btn btn-outline-primary btn-sm" href="https://doi.org/{{ paper.doi | escape }}">DOI</a>
+      {% endif %}
+      {% if paper.code %}
+        <a class="btn btn-outline-primary btn-sm" href="{{ paper.code | escape }}">Code</a>
+      {% endif %}
+    </div>
+    {% if paper.pdf_license == 'aip' %}
+      <p class="small text-muted">
+        This article may be downloaded for personal use only. Any other use requires prior permission of the author and AIP Publishing. Published in
+        <a href="https://doi.org/{{ paper.doi | escape }}">
+          {{- paper.journal | escape }}
+          {{ paper.volume }}, {{ paper.pages }} ({{ paper.year }})</a
+        >.
+      </p>
+    {% elsif paper.pdf_license == 'cc-by-4.0' %}
+      <p class="small">
+        {{ paper.pdf_version | default: 'Published version' | escape }} · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+      </p>
+    {% elsif paper.pdf_version %}
+      <p class="small text-muted">{{ paper.pdf_version | escape }}</p>
+    {% endif %}
+  </header>
+  {% if paper.abstract %}
+    <section aria-labelledby="publication-abstract">
+      <h2 id="publication-abstract">Abstract</h2>
+      <p>{{ paper.abstract | escape }}</p>
+    </section>
+  {% endif %}
+  {% if paper.preview %}
+    {% assign preview = paper.preview %}
+    {% unless preview contains '://' %}
+      {% assign preview = preview | prepend: '/assets/img/publication_preview/' | relative_url %}
+    {% endunless %}
+    <figure class="mt-4">
+      <img src="{{ preview | escape }}" alt="Publication preview" class="img-fluid rounded" loading="lazy">
+    </figure>
+  {% endif %}
+</article>

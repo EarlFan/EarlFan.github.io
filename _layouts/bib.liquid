@@ -48,7 +48,16 @@
   <!-- Entry bib key -->
   <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-8{% else %}col-sm-10{% endif %}">
     <!-- Title -->
-    <div class="title">{{ entry.title }}</div>
+    <div class="title">
+      {% assign details_page = site.pages | where: 'publication_key', entry.key | first %}
+      {% if details_page %}
+        <a href="{{ details_page.url | relative_url }}">{{ entry.title }}</a>
+      {% elsif entry.doi != blank %}
+        <a href="https://doi.org/{{ entry.doi | escape }}">{{ entry.title }}</a>
+      {% else %}
+        {{ entry.title }}
+      {% endif %}
+    </div>
     <!-- Author -->
     <div class="author">
       {% assign author_array_size = entry.author_array | size %}
@@ -201,7 +210,7 @@
         <a href="https://doi.org/{{ entry.doi }}" class="btn btn-sm z-depth-0" role="button">DOI</a>
       {% endif %}
       {% if entry.arxiv %}
-        <a href="http://arxiv.org/abs/{{ entry.arxiv }}" class="btn btn-sm z-depth-0" role="button">arXiv</a>
+        <a href="https://arxiv.org/abs/{{ entry.arxiv }}" class="btn btn-sm z-depth-0" role="button">arXiv</a>
       {% endif %}
       {% if entry.hal %}
         <a href="https://hal.science/{{ entry.hal }}" class="btn btn-sm z-depth-0" role="button">HAL</a>
@@ -259,6 +268,19 @@
         <a href="{{ entry.website }}" class="btn btn-sm z-depth-0" role="button">Website</a>
       {% endif %}
     </div>
+    {% if entry.pdf %}
+      {% if entry.pdf_license == 'aip' %}
+        <p class="small text-muted mb-1">
+          This article may be downloaded for personal use only. Any other use requires prior permission of the author and AIP Publishing. Published in
+          <a href="https://doi.org/{{ entry.doi }}">
+            {{- entry.journal }}
+            {{ entry.volume }}, {{ entry.pages }} ({{ entry.year }})</a
+          >.
+        </p>
+      {% elsif entry.pdf_license == 'cc-by-4.0' %}
+        <p class="small text-muted mb-1">Available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+      {% endif %}
+    {% endif %}
     {% if site.enable_publication_badges %}
       {% assign entry_has_altmetric_badge = false %}
       {% if entry.altmetric and entry.altmetric != 'false' %}

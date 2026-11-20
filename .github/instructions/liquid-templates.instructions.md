@@ -33,7 +33,7 @@ This al-folio repository uses Liquid templating extensively. When modifying `.li
 - `_includes/header.liquid` – Site header/navigation
 - `_includes/projects.liquid` – Project display
 - `_includes/scripts.liquid` – Global scripts
-- `_includes/selected_papers.liquid` – Featured publications display
+- `_includes/publications.liquid` – Publication list for the home and Publications pages
 
 ### Prettier Formatting for Liquid
 
