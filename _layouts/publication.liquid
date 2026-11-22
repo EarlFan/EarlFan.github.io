@@ -44,6 +44,15 @@ layout: default
       <p class="small text-muted">{{ paper.pdf_version | escape }}</p>
     {% endif %}
   </header>
+  {% if paper.plain_language_summary %}
+    <section aria-labelledby="publication-summary">
+      <h2 id="publication-summary">Plain-language summary</h2>
+      <p>{{ paper.plain_language_summary | escape }}</p>
+    </section>
+  {% endif %}
+  {% if paper.keywords %}
+    <p><strong>Keywords</strong> · {{ paper.keywords | escape }}</p>
+  {% endif %}
   {% if paper.abstract %}
     <section aria-labelledby="publication-abstract">
       <h2 id="publication-abstract">Abstract</h2>

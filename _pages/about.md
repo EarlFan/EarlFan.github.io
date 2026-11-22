@@ -1,6 +1,7 @@
 ---
 layout: about
 title: About
+html_title: Fan E | Fluid Mechanics Researcher at The Hong Kong Polytechnic University
 permalink: /
 subtitle: Computational fluid dynamics · Compressible reacting flows · AI for CFD
 profile:
